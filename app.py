@@ -2,48 +2,59 @@ import pygame as pg
 
 
 class App:
-    """
-    Класс приложения.
-    Управляет всеми процессами приложений.
+    """Class app.
+    
+    Manages all processes.
     """
     def __init__(self):
-        """
-        Инициализация главных настроек приложения.
-        """
+        """Initializing all settings."""
         
-        # Настройка окна игры.
-        self.WIDTH = 1200
-        self.HIGHT = 600
-        self.TITLE = 'alien invasion'
-        self.WINDOW = pg.display.set_mode((self.WIDTH, self.HIGHT))
-        pg.display.set_caption(self.TITLE)
+        # Settings window.
+        self.width = 1422
+        self.height = 800
+        self.caption = 'alien invasion'
+        self.background = pg.image.load('./images/App/Background.jpg')
+        self.window = pg.display.set_mode((self.width, self.height))
+        pg.display.set_caption(self.caption)
 
+        # Settings framerate.
+        self.fps = 30
+        self.framerate = pg.time.Clock().tick
+    
 
-    def quit(self):
-        """
-        Завершает программу.
-        """
+    def close(self):
+        """Ends the program."""
 
         pg.quit()
         quit()
 
 
-    def check_events(self):
-        """
-        Обработка событий программы.
-        """
+    def event_handler(self):
+        """Event handling program."""
 
-        # Нажатие на крестик.
-        [self.quit() for event in pg.event.get() if event.type == pg.QUIT]
+        # Clicking on the cross.
+        [self.close() for event in pg.event.get() if event.type == pg.QUIT]
+
+        # Receiving the pressed keys on the keyboard.
+        keys = pg.key.get_pressed()
+
+        # Pressing ESCAPE.
+        if keys[pg.K_ESCAPE]:
+            self.close()
+
+    
+    def draw(self):
+        self.window.blit(self.background, (0, 0))
+        pg.display.update()
 
 
-    def run(self):
-        """
-        Запуск главного цикла приложения.
-        """
+    def start(self):
+        """Start of all processes of the appendix."""
 
         while True:
-            self.check_events()
+            self.event_handler()
+            self.draw()
+            self.framerate(self.fps)
 
 
 
